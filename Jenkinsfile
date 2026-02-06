@@ -42,6 +42,7 @@ pipeline {
                 sh """
                 cd Backend/todo-summary-assistant
                 docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                docker tag ${IMAGE_NAME}:${IMAGE_TAG}  ${dockerHubUser}/${IMAGE_NAME}:${IMAGE_TAG}
                 """
             }
         }
