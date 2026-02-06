@@ -1,10 +1,12 @@
-tools {
-    maven 'maven-3'
-    jdk 'jdk-17'
-}
+
 
 pipeline {
     agent any
+
+   tools {
+    maven 'maven-3'
+    jdk 'jdk-17'
+  }
 
     environment {
         IMAGE_NAME = "poltushar/todo-summary"
