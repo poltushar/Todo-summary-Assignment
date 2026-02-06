@@ -159,4 +159,4 @@ and can be extended to a managed Kubernetes environment such as AWS EKS.
 ![Screenshot (1144)](https://github.com/user-attachments/assets/474b1a46-36c8-4407-8bf9-a46ca911603b)
 
 ![Screenshot (1143)](https://github.com/user-attachments/assets/1e9f8783-d0df-42ce-a3f8-ec7ca5e7c078)
-# Todo-summary-Assignment
+
