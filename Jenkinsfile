@@ -9,7 +9,7 @@ pipeline {
   }
 
     environment {
-        IMAGE_NAME = "tusharpol/todo-summary"
+        IMAGE_NAME = "todo-summary"
         IMAGE_TAG  = "${BUILD_NUMBER}"
     }
 
@@ -55,7 +55,7 @@ pipeline {
                 )]) {
                     sh """
                     echo \$dockerHubPass | docker login -u \$dockerHubUser --password-stdin
-                    docker push ${IMAGE_NAME}:${IMAGE_TAG}
+                    docker push ${dockerHubUser}/${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
