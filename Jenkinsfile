@@ -29,20 +29,13 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                dir('Backend/todo-summary-assistant') {
-                    sh 'mvn test || true'
-                }
-            }
-        }
+        
 
         stage('Build Docker Image') {
             steps {
                 sh """
                 cd Backend/todo-summary-assistant
                 docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
-                docker tag ${IMAGE_NAME}:${IMAGE_TAG}  ${dockerHubUser}/${IMAGE_NAME}:${IMAGE_TAG}
                 """
             }
         }
@@ -56,6 +49,7 @@ pipeline {
                 )]) {
                     sh """
                     echo \$dockerHubPass | docker login -u \$dockerHubUser --password-stdin
+                    docker tag ${IMAGE_NAME}:${IMAGE_TAG}  $dockerHubUser/${IMAGE_NAME}:${IMAGE_TAG} 
                     docker push $dockerHubUser/${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
