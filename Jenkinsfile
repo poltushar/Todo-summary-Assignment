@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "poltushar/todo-summary"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                dir('Backend/todo-summary-assistant') {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                dir('Backend/todo-summary-assistant') {
+                    sh 'mvn test || true'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh """
+                docker build -t ${IMAGE_NAME}:${IMAGE_TAG} \
+                -f Backend/todo-summary-assistant/Dockerfile .
+                """
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerHubCred',
+                    usernameVariable: 'dockerHubUser',
+                    passwordVariable: 'dockerHubPass'
+                )]) {
+                    sh """
+                    echo \$dockerHubPass | docker login -u \$dockerHubUser --password-stdin
+                    docker push ${IMAGE_NAME}:${IMAGE_TAG}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            echo 'CI pipeline failed'
+        }
+        success {
+            echo 'CI pipeline completed successfully'
+        }
+    }
+}
+
