@@ -1,6 +1,14 @@
 # Todo Summary Assistant
 
 A full-stack application to manage personal to-do items, summarize pending tasks using Cohere LLM, and send the summary to a Slack channel.
+## DevOps Overview
+
+The objective is to demonstrate containerization,
+continuous integration, Kubernetes deployment, GitOps-based delivery, rollback
+strategy, and operational considerations.
+
+The focus of this work is on DevOps automation and deployment practices rather
+than application complexity.
 
 ## Table of Contents
 
@@ -32,6 +40,22 @@ A full-stack application to manage personal to-do items, summarize pending tasks
 * **Messaging:** Slack Incoming Webhooks
 * **HTTP Client:** OkHttp (for Cohere and Slack API calls in backend)
 
+## Local DevOps Setup
+
+The DevOps workflow is implemented using a local environment for demonstration
+purposes.
+
+- Source Control: GitHub
+- Build Tool: Maven
+- CI: Jenkins (local)
+- Containerization: Docker
+- Container Registry: Docker Hub
+- Kubernetes: Minikube
+- Deployment Model: GitOps (Git-driven)
+
+Although the setup is local, the workflow mirrors a production GitOps pipeline
+and can be extended to a managed Kubernetes environment such as AWS EKS.
+
 ## Setup Instructions
 
 ### Prerequisites
@@ -51,13 +75,15 @@ A full-stack application to manage personal to-do items, summarize pending tasks
     ```
 2.  **Configure `application.properties`:**
     Open `src/main/resources/application.properties` and update the following:
-    ```properties
-    spring.datasource.url=jdbc:mysql://localhost:3306/todo_db?createDatabaseIfNotExist=true
-    spring.datasource.username=root
-    spring.datasource.password=your_mysql_password_here # <-- IMPORTANT: Replace with your MySQL root password
-    cohere.api.key=YOUR_COHERE_API_KEY # <-- IMPORTANT: Replace with your Cohere API Key
-    slack.webhook.url=YOUR_SLACK_WEBHOOK_URL # <-- IMPORTANT: Replace with your Slack Incoming Webhook URL
-    ```
+    
+   **Configuration**
+   
+   Configuration values such as database credentials, Cohere API keys, and Slack
+   webhook URLs are externalized and provided at runtime using environment
+   variables or Kubernetes Secrets.
+
+   Sensitive information is not committed to source control.      
+
 3.  **Build and Run:**
     ```bash
     mvn clean install
@@ -117,6 +143,15 @@ A full-stack application to manage personal to-do items, summarize pending tasks
 * **LLM Prompt Engineering:** A simple prompt is used for Cohere to instruct it on summarizing the list of to-do items. This can be further refined for better results.
 * **Notification System:** A simple notification component in React provides immediate feedback to the user about operations.
 
+## Assumptions & Limitations
+
+- Kubernetes is configured locally using Minikube.
+- Jenkins is used only for CI and does not deploy directly to Kubernetes.
+- GitOps is used to manage Kubernetes deployment state via Git.
+- Monitoring and alerting are described at a design level only.
+- Advanced deployment strategies (Helm, blue-green, canary) are out of scope.
+
+
 ## Demo Images
 
 ![Screenshot (1146)](https://github.com/user-attachments/assets/53fe53e3-b527-4659-9ab6-b462ae034fbd)
@@ -124,3 +159,4 @@ A full-stack application to manage personal to-do items, summarize pending tasks
 ![Screenshot (1144)](https://github.com/user-attachments/assets/474b1a46-36c8-4407-8bf9-a46ca911603b)
 
 ![Screenshot (1143)](https://github.com/user-attachments/assets/1e9f8783-d0df-42ce-a3f8-ec7ca5e7c078)
+# Todo-summary-Assignment
