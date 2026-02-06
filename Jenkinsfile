@@ -41,8 +41,7 @@ pipeline {
             steps {
                 sh """
                 cd Backend/todo-summary-assistant
-                docker build -t ${IMAGE_NAME}:${IMAGE_TAG} \
-                -f Backend/todo-summary-assistant/Dockerfile .
+                docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                 """
             }
         }
