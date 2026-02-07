@@ -11,7 +11,7 @@ pipeline {
     environment {
         IMAGE_NAME = "todo-summary"
         IMAGE_TAG  = "${BUILD_NUMBER}"
-        IMAGE_NAME_FRONTEND = "todo-summart-frontend"  
+     
     }
 
     stages {
@@ -31,8 +31,7 @@ pipeline {
                 sh """
                 cd Backend/todo-summary-assistant
                 docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
-                cd Frontend/todo
-                docker build -t ${IMAGE_NAME_FRONTEND}:${IMAGE_TAG} .
+
                 """
             }
         }
@@ -48,8 +47,6 @@ pipeline {
                     echo \$dockerHubPass | docker login -u \$dockerHubUser --password-stdin
                     docker tag ${IMAGE_NAME}:${IMAGE_TAG}  $dockerHubUser/${IMAGE_NAME}:${IMAGE_TAG} 
                     docker push $dockerHubUser/${IMAGE_NAME}:${IMAGE_TAG}
-                     docker tag ${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}  $dockerHubUser/${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}
-                    docker push $dockerHubUser/${IMAGE_NAME_FRONTEND}:${IMAGE_TAG}
                     """
                 }
             }
